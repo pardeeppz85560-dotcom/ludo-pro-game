@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101629" />
+  <title>LUDO PRO — Play Together</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#">
+        <span class="brand-icon">✦</span>
+        <span>LUDO<span class="brand-accent">PRO</span>
+          <small>THE CLASSIC, REIMAGINED</small>
+        </span>
+      </a>
+      <div class="header-right">
+        <span class="live-dot"></span>
+        <span class="online-label">LOCAL GAME</span>
+        <button id="soundBtn" class="icon-btn" title="Toggle sound">♫</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <span class="eyebrow">✦ YOUR GAME NIGHT STARTS HERE</span>
+          <h1>Roll. Race. <span>Rule.</span></h1>
+          <p>Good friends. Lucky sixes. Legendary wins.</p>
+        </div>
+        <div class="hero-badge">
+          <span>🏆</span>
+          <div><b id="heroWins">0</b><small>YOUR WINS</small></div>
+        </div>
+      </section>
+
+      <section class="setup-panel panel" id="setupPanel">
+        <div class="section-heading">
+          <div><span class="eyebrow">GAME SETUP</span><h2>Who's playing today?</h2></div>
+          <span class="step-pill">01 / SETUP</span>
+        </div>
+        <div class="setup-controls">
+          <label for="playerCount">Number of players</label>
+          <select id="playerCount">
+            <option value="2">2 Players</option>
+            <option value="3">3 Players</option>
+            <option value="4" selected>4 Players</option>
+          </select>
+          <button id="startBtn" class="primary-btn">Start new game <span>→</span></button>
+        </div>
+        <div class="player-preview" id="playerPreview"></div>
+      </section>
+
+      <section class="game-layout">
+        <div class="game-main panel">
+          <div class="game-toolbar">
+            <div>
+              <span class="eyebrow">THE BATTLEFIELD</span>
+              <h2>Classic Ludo</h2>
+            </div>
+            <div class="match-tag"><span class="live-dot"></span> <span id="gameStatus">READY TO PLAY</span></div>
+          </div>
+
+          <div class="board-frame">
+            <div class="board" id="board" aria-label="Ludo game board"></div>
+          </div>
+
+          <div class="board-legend">
+            <span><i class="legend-dot red"></i> Red</span>
+            <span><i class="legend-dot green"></i> Green</span>
+            <span><i class="legend-dot yellow"></i> Yellow</span>
+            <span><i class="legend-dot blue"></i> Blue</span>
+          </div>
+        </div>
+
+        <aside class="sidebar">
+          <section class="panel turn-panel">
+            <div class="section-heading compact">
+              <div><span class="eyebrow">YOUR MOVE</span><h2>Game control</h2></div>
+              <span class="turn-number" id="turnNumber">01</span>
+            </div>
+
+            <div id="currentPlayerCard" class="current-player">
+              <div id="currentAvatar" class="player-avatar red-bg">R</div>
+              <div class="current-player-info">
+                <b id="currentPlayerName">Red Player</b>
+                <small id="currentPlayerHint">Roll the dice to begin</small>
+              </div>
+            </div>
+
+            <div class="dice-stage">
+              <div id="dice" class="dice" aria-label="Dice result">⚄</div>
+              <div id="diceMessage" class="dice-message">Ready when you are</div>
+            </div>
+            <button id="rollBtn" class="primary-btn roll-btn" disabled>🎲 Roll the dice</button>
+            <p class="helper-text" id="helperText">Start a game to enable the dice.</p>
+
+            <div class="action-row">
+              <button id="newGameBtn" class="secondary-btn">↻ New game</button>
+              <button id="rulesBtn" class="secondary-btn">ⓘ Rules</button>
+            </div>
+          </section>
+
+          <section class="panel scoreboard-panel">
+            <div class="section-heading compact">
+              <div><span class="eyebrow">LIVE MATCH</span><h2>Players</h2></div>
+              <span class="mini-icon">♟</span>
+            </div>
+            <div id="scoreboard" class="scoreboard"></div>
+          </section>
+
+          <section class="panel stats-panel">
+            <span class="eyebrow">MATCH INSIGHTS</span>
+            <div class="stats-grid">
+              <div><b id="movesStat">0</b><small>Moves</small></div>
+              <div><b id="capturesStat">0</b><small>Captures</small></div>
+              <div><b id="sixStat">0</b><small>Sixes</small></div>
+            </div>
+          </section>
+        </aside>
+      </section>
+
+      <section class="panel leaderboard-panel">
+        <div class="section-heading">
+          <div><span class="eyebrow">THE HALL OF FAME</span><h2>Leaderboard <span class="trophy">🏆</span></h2>
+            <p class="subheading">Your best moments, ranked.</p>
+          </div>
+          <button id="resetStatsBtn" class="text-btn">Reset records</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>RANK</th><th>PLAYER</th><th>WINS</th><th>GAMES</th><th>WIN RATE</th></tr></thead>
+            <tbody id="leaderboardBody"></tbody>
+          </table>
+        </div>
+        <p class="storage-note">↳ Records are saved locally in this browser.</p>
+      </section>
+
+      <footer>
+        <span>✦ LUDO PRO</span>
+        <span>Made for game nights · Play fair, have fun.</span>
+      </footer>
+    </main>
+  </div>
+
+  <dialog id="rulesDialog" class="modal">
+    <div class="modal-top">
+      <div><span class="eyebrow">HOW TO PLAY</span><h2>Know the rules</h2></div>
+      <button id="closeRulesBtn" class="icon-btn" aria-label="Close rules">✕</button>
+    </div>
+    <ul class="rules-list">
+      <li><b>Roll a six</b><span>A token needs a six to leave its yard.</span></li>
+      <li><b>Move your token</b><span>After rolling, click one of the highlighted legal tokens.</span></li>
+      <li><b>Capture opponents</b><span>Landing on an opponent on a non-safe square sends it home.</span></li>
+      <li><b>Safe squares</b><span>Starred squares protect tokens from captures.</span></li>
+      <li><b>Extra turns</b><span>A six or a capture grants another turn.</span></li>
+      <li><b>Win the match</b><span>Get all four of your tokens to the finish first.</span></li>
+    </ul>
+    <p class="rules-note">This version is a local pass-and-play game. All players share the same screen.</p>
+  </dialog>
+
+  <dialog id="messageDialog" class="modal">
+    <div class="modal-top">
+      <div><span class="eyebrow">MATCH UPDATE</span><h2 id="messageTitle">Congratulations!</h2></div>
+      <button id="closeMessageBtn" class="icon-btn" aria-label="Close">✕</button>
+    </div>
+    <p id="messageText"></p>
+    <button id="modalNewGameBtn" class="primary-btn">Play again →</button>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
